@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting started &mdash; django-formwizard v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-formwizard v0.1 documentation" href="index.html" />
+    <link rel="prev" title="django-formwizard Documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="django-formwizard Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">django-formwizard v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial shows the basic functionality of <strong>django-formwizard</strong>.</p>
+<p>We will build a multi-step feedback form and use the first example to introduce the named-url formwizard.</p>
+<p>Before we start, make sure that you installed <strong>django-formwizard</strong> either using the pypi package:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">#</span> pip install django-formwizard
+</pre></div>
+</div>
+<p>or the maybe-not stable development version on GitHub:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">#</span> pip install -e git+git://github.com/stephrdev/django-formwizard.git#egg<span class="o">=</span>django-formwizard
+</pre></div>
+</div>
+<div class="section" id="defining-our-single-step-forms">
+<h2>Defining our single step forms<a class="headerlink" href="#defining-our-single-step-forms" title="Permalink to this headline">¶</a></h2>
+<p><strong>django-formwizard</strong> used no special forms. Just create some <cite>Form</cite> classes, <cite>ModelForm</cite> classes or create one or more <cite>FormSet</cite>.</p>
+<p>But remember, file uploads won&#8217;t work!</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">FeedbackStep1</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">FeedbackStep2</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">support</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">ChoiceField</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="p">((</span><span class="s">&#39;like&#39;</span><span class="p">,</span> <span class="s">&#39;like it&#39;</span><span class="p">),</span> \
+        <span class="p">(</span><span class="s">&#39;dontlike&#39;</span><span class="p">,</span> <span class="s">&#39;dont like it&#39;</span><span class="p">)))</span>
+    <span class="n">performance</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">ChoiceField</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="p">((</span><span class="s">&#39;like&#39;</span><span class="p">,</span> <span class="s">&#39;like it&#39;</span><span class="p">),</span> \
+        <span class="p">(</span><span class="s">&#39;dontlike&#39;</span><span class="p">,</span> <span class="s">&#39;dont like it&#39;</span><span class="p">)))</span>
+
+<span class="k">class</span> <span class="nc">FeedbackStep3</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-our-formwizard-class">
+<h2>Creating our formwizard class<a class="headerlink" href="#creating-our-formwizard-class" title="Permalink to this headline">¶</a></h2>
+<p>To use the formwizard, you have to subclass <cite>formwizard.forms.FormWizard</cite> and add at least a <cite>done</cite> method. There are much more methods you could override. But now, there is no need for it.</p>
+<p>If you use <cite>formwizard.forms.FormWizard</cite>, you have to define a storage backend manually. To get rid of this, django-formwizard provides to predefined storage backend formwizards. SessionFormWizard and CookieFormWizard. The SessionFormWizard will store the step-formdata in a session and the CookieFormWizard will save the formdata in a cookie (which is protected against manipulation).</p>
+<p>For example, the formwizard will look for a template in the template directory using the following filename: <cite>formwizard/wizard.html</cite>. But this file is no complete html page. It has not &lt;form&gt; tags or &lt;body&gt;/&lt;html&gt; stuff. To change this behaviour, you can override the <cite>get_template</cite> method and return a list of templates to use.</p>
+<p>The <cite>done</cite> method in this example will render the template <cite>support/done.html</cite> and add a list of the cleaned_data dictionaries.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">formwizard.forms</span> <span class="kn">import</span> <span class="n">SessionFormWizard</span>
+
+<span class="k">class</span> <span class="nc">FeedbackWizard</span><span class="p">(</span><span class="n">SessionFormWizard</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">done</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">form_list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span>
+            <span class="s">&#39;support/done.html&#39;</span><span class="p">,</span>
+            <span class="p">{</span><span class="s">&#39;form_list&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span> <span class="k">for</span> <span class="n">form</span> <span class="ow">in</span> <span class="n">form_list</span><span class="p">]},</span>
+            <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_template</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s">&#39;support/form.html&#39;</span><span class="p">,]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-the-formwizard-instance">
+<h2>Create the formwizard instance<a class="headerlink" href="#create-the-formwizard-instance" title="Permalink to this headline">¶</a></h2>
+<p>To actually use the form wizard, we have to create a can be done once (if you don&#8217;t need need to add initial data/instance data) or within a view.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">feedback_form_instance</span> <span class="o">=</span> <span class="n">FeedbackWizard</span><span class="p">([</span><span class="n">FeedbackStep1</span><span class="p">,</span> <span class="n">FeedbackStep2</span><span class="p">,</span> \
+    <span class="n">FeedbackStep3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>After creating the form wizard instance, we need to make the wizard public accessible using a <cite>urls.py</cite>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="n">feedback_form_instance</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;feedback_wizard&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="basic-template-for-our-formwizard">
+<h2>Basic template for our formwizard<a class="headerlink" href="#basic-template-for-our-formwizard" title="Permalink to this headline">¶</a></h2>
+<p>To render the wizard and the done-page, we have to add some templates.</p>
+<div class="section" id="support-form-html">
+<h3>support/form.html<a class="headerlink" href="#support-form-html" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Feedback<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>We want your feedback!<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;.&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+            {% include &quot;formwizard/wizard.html&quot; %}
+        <span class="nt">&lt;/form&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="support-done-html">
+<h3>support/done.html<a class="headerlink" href="#support-done-html" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Feedback Done<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>We got your feedback!<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;pre&gt;</span>
+            {{ form_list|pprint }}
+        <span class="nt">&lt;/pre&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>The done-page will just print out all cleaned_data key/values.</p>
+</div>
+</div>
+<div class="section" id="what-s-next">
+<h2>What&#8217;s next<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
+<p>You could add a nice <strong>Thank you</strong> template and send a mail to the site&#8217;s managers instead of displaying the formdata.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Getting started</a><ul>
+<li><a class="reference internal" href="#defining-our-single-step-forms">Defining our single step forms</a></li>
+<li><a class="reference internal" href="#creating-our-formwizard-class">Creating our formwizard class</a></li>
+<li><a class="reference internal" href="#create-the-formwizard-instance">Create the formwizard instance</a></li>
+<li><a class="reference internal" href="#basic-template-for-our-formwizard">Basic template for our formwizard</a><ul>
+<li><a class="reference internal" href="#support-form-html">support/form.html</a></li>
+<li><a class="reference internal" href="#support-done-html">support/done.html</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#what-s-next">What&#8217;s next</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">django-formwizard Documentation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/gettingstarted.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index.html" title="django-formwizard Documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">django-formwizard v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Stephan Jaekel.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b1.
+    </div>
+  </body>
+</html>
