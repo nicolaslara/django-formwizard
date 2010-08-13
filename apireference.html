@@ -56,38 +56,44 @@ an instance.</p>
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.determine_step">
 <tt class="descname">determine_step</tt><big>(</big><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.determine_step" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the current step. If no current step is stored in the storage
-backend, the first step will be returned.</dd></dl>
+<dd><p>Returns the current step. If no current step is stored in the storage
+backend, the first step will be returned.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.done">
 <tt class="descname">done</tt><big>(</big><em>request</em>, <em>form_list</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.done" title="Permalink to this definition">¶</a></dt>
-<dd>This method muss be overrided by a subclass to process to form data
-after processing all steps.</dd></dl>
+<dd><p>This method muss be overrided by a subclass to process to form data
+after processing all steps.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_all_cleaned_data">
 <tt class="descname">get_all_cleaned_data</tt><big>(</big><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_all_cleaned_data" title="Permalink to this definition">¶</a></dt>
-<dd>Returns a merged dictionary of all step&#8217; cleaned_data dictionaries.
+<dd><p>Returns a merged dictionary of all step&#8217; cleaned_data dictionaries.
 If a step contains a <cite>FormSet</cite>, the key will be prefixed with formset
-and contain a list of the formset&#8217; cleaned_data dictionaries.</dd></dl>
+and contain a list of the formset&#8217; cleaned_data dictionaries.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_cleaned_data_for_step">
 <tt class="descname">get_cleaned_data_for_step</tt><big>(</big><em>step</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_cleaned_data_for_step" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the cleaned data for a given <cite>step</cite>. Before returning the
+<dd><p>Returns the cleaned data for a given <cite>step</cite>. Before returning the
 cleaned data, the stored values are being revalidated through the
-form. If the data doesn&#8217;t validate, None will be returned.</dd></dl>
+form. If the data doesn&#8217;t validate, None will be returned.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_extra_context">
 <tt class="descname">get_extra_context</tt><big>(</big><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_extra_context" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the extra data currently stored in the storage backend.</dd></dl>
+<dd><p>Returns the extra data currently stored in the storage backend.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_first_step">
 <tt class="descname">get_first_step</tt><big>(</big><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_first_step" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the name of the first step.</dd></dl>
+<dd><p>Returns the name of the first step.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_form">
@@ -101,16 +107,18 @@ new form.</p>
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_form_initial">
 <tt class="descname">get_form_initial</tt><big>(</big><em>step</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_form_initial" title="Permalink to this definition">¶</a></dt>
-<dd>Returns a dictionary which will be passed to the form for <cite>step</cite> 
+<dd><p>Returns a dictionary which will be passed to the form for <cite>step</cite> 
 as <cite>initial</cite>. If no initial data was provied while initializing the
-form wizard, a empty dictionary will be returned.</dd></dl>
+form wizard, a empty dictionary will be returned.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_form_instance">
 <tt class="descname">get_form_instance</tt><big>(</big><em>step</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_form_instance" title="Permalink to this definition">¶</a></dt>
-<dd>Returns a object which will be passed to the form for <cite>step</cite> 
+<dd><p>Returns a object which will be passed to the form for <cite>step</cite> 
 as <cite>instance</cite>. If no instance object was provied while initializing
-the form wizard, None be returned.</dd></dl>
+the form wizard, None be returned.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_form_prefix">
@@ -125,106 +133,122 @@ automatically.</p>
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_form_step_data">
 <tt class="descname">get_form_step_data</tt><big>(</big><em>form</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_form_step_data" title="Permalink to this definition">¶</a></dt>
-<dd>Is used to return the raw form data. You may use this method to
-manipulate the data.</dd></dl>
+<dd><p>Is used to return the raw form data. You may use this method to
+manipulate the data.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_last_step">
 <tt class="descname">get_last_step</tt><big>(</big><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_last_step" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the name of the last step.</dd></dl>
+<dd><p>Returns the name of the last step.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_next_step">
 <tt class="descname">get_next_step</tt><big>(</big><em>step=None</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_next_step" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the next step after the given <cite>step</cite>. If no more steps are
+<dd><p>Returns the next step after the given <cite>step</cite>. If no more steps are
 available, None will be returned. If the <cite>step</cite> argument is None, the
-current step will be determined automatically.</dd></dl>
+current step will be determined automatically.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_prev_step">
 <tt class="descname">get_prev_step</tt><big>(</big><em>step=None</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_prev_step" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the previous step before the given <cite>step</cite>. If there are no
+<dd><p>Returns the previous step before the given <cite>step</cite>. If there are no
 steps available, None will be returned. If the <cite>step</cite> argument is None, the
-current step will be determined automatically.</dd></dl>
+current step will be determined automatically.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_step_index">
 <tt class="descname">get_step_index</tt><big>(</big><em>step=None</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_step_index" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the index for the given <cite>step</cite> name. If no step is given,
-the current step will be used to get the index.</dd></dl>
+<dd><p>Returns the index for the given <cite>step</cite> name. If no step is given,
+the current step will be used to get the index.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_template">
 <tt class="descname">get_template</tt><big>(</big><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_template" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the templates to be used for rendering the wizard steps. This
-method can return a list of templates or a single string.</dd></dl>
+<dd><p>Returns the templates to be used for rendering the wizard steps. This
+method can return a list of templates or a single string.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.get_wizard_name">
 <tt class="descname">get_wizard_name</tt><big>(</big><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.get_wizard_name" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the name of the wizard. By default the class name is used.
+<dd><p>Returns the name of the wizard. By default the class name is used.
 This name will be used in storage backends to prevent from colliding
-with other form wizards.</dd></dl>
+with other form wizards.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="formwizard.forms.FormWizard.num_steps">
 <tt class="descname">num_steps</tt><a class="headerlink" href="#formwizard.forms.FormWizard.num_steps" title="Permalink to this definition">¶</a></dt>
-<dd>Returns the total number of steps/forms in this the wizard.</dd></dl>
+<dd><p>Returns the total number of steps/forms in this the wizard.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.process_get_request">
 <tt class="descname">process_get_request</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.process_get_request" title="Permalink to this definition">¶</a></dt>
-<dd>If the wizard gets a GET request, it assumes that the user just
+<dd><p>If the wizard gets a GET request, it assumes that the user just
 starts at the first step or wants to restart the process. The wizard
-will be resetted before rendering the first step.</dd></dl>
+will be resetted before rendering the first step.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.process_post_request">
 <tt class="descname">process_post_request</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.process_post_request" title="Permalink to this definition">¶</a></dt>
-<dd>Generates a HttpResponse which contains either the current step (if
+<dd><p>Generates a HttpResponse which contains either the current step (if
 form validation wasn&#8217;t successful), the next step (if the current step
 was stored successful) or the done view (if no more steps are
-available)</dd></dl>
+available)</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.process_request">
 <tt class="descname">process_request</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.process_request" title="Permalink to this definition">¶</a></dt>
-<dd>Returns a response generated by either <cite>process_get_request</cite> or
-<cite>process_post_request</cite> (depends on <cite>request.method</cite>).</dd></dl>
+<dd><p>Returns a response generated by either <cite>process_get_request</cite> or
+<cite>process_post_request</cite> (depends on <cite>request.method</cite>).</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.process_step">
 <tt class="descname">process_step</tt><big>(</big><em>form</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.process_step" title="Permalink to this definition">¶</a></dt>
-<dd>This method is used to postprocess the form data. For example, this
+<dd><p>This method is used to postprocess the form data. For example, this
 could be used to conditionally skip steps if a special field is
-checked. By default, it returns the raw <cite>form.data</cite> dictionary.</dd></dl>
+checked. By default, it returns the raw <cite>form.data</cite> dictionary.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.render">
 <tt class="descname">render</tt><big>(</big><em>form</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.render" title="Permalink to this definition">¶</a></dt>
-<dd>Renders the acutal <cite>form</cite>. This method can be used to pre-process data
-or conditionally skip steps.</dd></dl>
+<dd><p>Renders the acutal <cite>form</cite>. This method can be used to pre-process data
+or conditionally skip steps.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.render_done">
 <tt class="descname">render_done</tt><big>(</big><em>form</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.render_done" title="Permalink to this definition">¶</a></dt>
-<dd>Gets called when all forms passed. The method should also re-validate
+<dd><p>Gets called when all forms passed. The method should also re-validate
 all steps to prevent manipulation. If any form don&#8217;t validate,
 <cite>render_revalidation_failure</cite> should get called. If everything is fine
-call <cite>done</cite>.</dd></dl>
+call <cite>done</cite>.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.render_next_step">
 <tt class="descname">render_next_step</tt><big>(</big><em>form</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.render_next_step" title="Permalink to this definition">¶</a></dt>
-<dd>Gets called when the next step/form should be rendered. <cite>form</cite>
-contains the last/current form.</dd></dl>
+<dd><p>Gets called when the next step/form should be rendered. <cite>form</cite>
+contains the last/current form.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.render_revalidation_failure">
 <tt class="descname">render_revalidation_failure</tt><big>(</big><em>step</em>, <em>form</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.render_revalidation_failure" title="Permalink to this definition">¶</a></dt>
-<dd>Gets called when a form doesn&#8217;t validate before rendering the done
+<dd><p>Gets called when a form doesn&#8217;t validate before rendering the done
 view. By default, it resets the current step to the first failing
-form and renders the form.</dd></dl>
+form and renders the form.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.render_template">
@@ -250,13 +274,15 @@ template context variables are:</p>
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.reset_wizard">
 <tt class="descname">reset_wizard</tt><big>(</big><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.reset_wizard" title="Permalink to this definition">¶</a></dt>
-<dd>Resets the user-state of the wizard.</dd></dl>
+<dd><p>Resets the user-state of the wizard.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="formwizard.forms.FormWizard.update_extra_context">
 <tt class="descname">update_extra_context</tt><big>(</big><em>new_context</em><big>)</big><a class="headerlink" href="#formwizard.forms.FormWizard.update_extra_context" title="Permalink to this definition">¶</a></dt>
-<dd>Updates the currently stored extra context data. Already stored extra
-context will be kept!</dd></dl>
+<dd><p>Updates the currently stored extra context data. Already stored extra
+context will be kept!</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -266,7 +292,8 @@ context will be kept!</dd></dl>
 <dl class="class">
 <dt id="formwizard.forms.SessionFormWizard">
 <em class="property">class </em><tt class="descclassname">formwizard.forms.</tt><tt class="descname">SessionFormWizard</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#formwizard.forms.SessionFormWizard" title="Permalink to this definition">¶</a></dt>
-<dd>A FormWizard with pre-configured SessionStorageBackend.</dd></dl>
+<dd><p>A FormWizard with pre-configured SessionStorageBackend.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="cookieformwizard">
@@ -274,7 +301,8 @@ context will be kept!</dd></dl>
 <dl class="class">
 <dt id="formwizard.forms.CookieFormWizard">
 <em class="property">class </em><tt class="descclassname">formwizard.forms.</tt><tt class="descname">CookieFormWizard</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#formwizard.forms.CookieFormWizard" title="Permalink to this definition">¶</a></dt>
-<dd>A FormWizard with pre-configured CookieStorageBackend.</dd></dl>
+<dd><p>A FormWizard with pre-configured CookieStorageBackend.</p>
+</dd></dl>
 
 </div>
 </div>
@@ -334,7 +362,7 @@ context will be kept!</dd></dl>
     </div>
     <div class="footer">
         &copy; Copyright 2010, Stephan Jaekel.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
     </div>
   </body>
 </html>
