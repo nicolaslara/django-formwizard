@@ -3,7 +3,11 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from formwizard.storage import get_storage
 from django import forms
+
+from datetime import datetime
 import copy
+import string
+import random
 
 class FormWizard(object):
     """
@@ -28,6 +32,7 @@ class FormWizard(object):
         """
         self.form_list = SortedDict()
         self.storage_name = storage
+        
 
         assert len(form_list) > 0, 'at least one form is needed'
 
@@ -54,7 +59,6 @@ class FormWizard(object):
         After processing the request using the `process_request` method, the
         response gets updated by the storage engine (for example add cookies).
         """
-
         instance = copy.copy(self)
         instance.request = request
         instance.storage = get_storage(instance.storage_name, instance.get_wizard_name(), instance.request)
@@ -98,14 +102,26 @@ class FormWizard(object):
 
         if self.request.POST.has_key('form_prev_step') and self.form_list.has_key(self.request.POST['form_prev_step']):
             self.storage.set_current_step(self.request.POST['form_prev_step'])
-            form = self.get_form(data=self.storage.get_step_data(self.determine_step()))
+            form = self.get_form(data=self.storage.get_step_data(),
+                                 files=self.request.FILES)
         else:
-            form = self.get_form(data=self.request.POST)
+            form = self.get_form(data=self.request.POST, files=self.request.FILES)
 
+            current_step = self.determine_step()
             if form.is_valid():
-                self.storage.set_step_data(self.determine_step(), self.process_step(form))
+                files = []
+                for title, file in self.request.FILES.items():
+                    name = ('./uploads/'+
+                            ''.join(random.sample(string.letters+string.digits, 16)))
+                    path = self.storage.file_storage.save(name, file)
+                    files.append({'path' : path, 'name': title, 
+                                  'timestamp': datetime.now()})
 
-                if self.determine_step() == self.get_last_step():
+                data = self.process_step(form)
+                data['files'] = files
+                self.storage.set_step_data(current_step, data)
+
+                if current_step == self.get_last_step():
                     return self.render_done(form, *args, **kwargs)
                 else:
                     return self.render_next_step(form, *args, **kwargs)
@@ -130,7 +146,9 @@ class FormWizard(object):
         """
         final_form_list = []
         for form_key in self.form_list.keys():
-            form_obj = self.get_form(step=form_key, data=self.storage.get_step_data(form_key))
+            form_obj = self.get_form(step=form_key, 
+                                     data=self.storage.get_step_data(form_key),
+                                     files=self.storage.get_files())
             if not form_obj.is_valid():
                 return self.render_revalidation_failure(form_key, form_obj)
             final_form_list.append(form_obj)
@@ -165,7 +183,7 @@ class FormWizard(object):
         """
         return self.instance_list.get(step, None)
 
-    def get_form(self, step=None, data=None):
+    def get_form(self, step=None, data=None, files=None):
         """
         Constructs the form for a given `step`. If no `step` is defined, the
         current step will be determined automatically.
@@ -175,8 +193,10 @@ class FormWizard(object):
         """
         if step is None:
             step = self.determine_step()
+
         kwargs = {
             'data': data,
+            'files': files,
             'prefix': self.get_form_prefix(step, self.form_list[step]),
             'initial': self.get_form_initial(step),
         }
@@ -393,3 +413,7 @@ class CookieFormWizard(FormWizard):
     """
     def __init__(self, *args, **kwargs):
         super(CookieFormWizard, self).__init__('formwizard.storage.cookie.CookieStorage', *args, **kwargs)
+
+class SessionUploadsFormWizard(FormWizard):
+    def __init__(self, *args, **kwargs):
+        super(SessionUploadsFormWizard, self).__init__('formwizard.storage.uploads.UploadsStorage', *args, **kwargs)
